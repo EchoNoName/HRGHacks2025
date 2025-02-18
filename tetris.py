@@ -193,6 +193,10 @@ class Tile:
     def unoccupie(self):
         self.state = ' '
 
+    def draw(self):
+        if self.state != ' ':
+            return True
+
     def __str__(self):
         return self.state
 
