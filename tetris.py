@@ -220,7 +220,7 @@ class Block:
     def rotate(self, board, type):
         if self.piece_type == 'I':
             if self.ot in {'w', 's'}:
-                if board[self.center[1] + 2][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                if board[self.center[1] + 2][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ':
                     for tile in self.occupied_tiles:
                         tile.unoccupie()
                     for i in range(-1, 3):
@@ -228,7 +228,7 @@ class Block:
                         self.ot = 'd'
             else:
                 try:
-                    if board[self.center[1]][self.center[0] - 2] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                    if board[self.center[1]][self.center[0] - 2].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         for i in range(-2, 2):
@@ -239,7 +239,7 @@ class Block:
         elif self.piece_type == 'J':
             if self.ot in 'w':
                 if type == 'R':
-                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0] + 1].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
@@ -247,7 +247,7 @@ class Block:
                         board[self.center[1] + 1][self.center[1]].occupie(self)
                         self.ot = 'd'
                 else:
-                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                    if board[self.center[1] - 1][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -257,7 +257,7 @@ class Block:
             elif self.ot in 'd':
                 if type == 'R':
                     try:
-                        if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] - 1] == ' ':
+                        if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0] - 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0]].occupie(self)
@@ -268,7 +268,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0] + 1].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0]].occupie(self)
@@ -279,7 +279,7 @@ class Block:
                         return False
             elif self.ot in 's':
                 if type == 'R':
-                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0] - 1].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -287,7 +287,7 @@ class Block:
                         board[self.center[1] + 1][self.center[0]].occupie(self)
                         self.ot = 'a'
                 else:
-                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                    if board[self.center[1] - 1][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -297,7 +297,7 @@ class Block:
             else:
                 if type == 'R':
                     try:
-                        if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] + 1][self.center[0] + 1].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0]].occupie(self)
@@ -308,7 +308,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                        if board[self.center[1] - 1][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -320,7 +320,7 @@ class Block:
         elif self.piece_type == 'L':
             if self.ot == 'w':
                 if type == 'R':
-                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                    if board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0] + 1].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] + 1][self.center[0]].occupie(self)
@@ -328,7 +328,7 @@ class Block:
                         board[self.center[1] - 1][self.center[0] + 1].occupie(self)
                         self.ot = 'd'
                 else:
-                    if board[self.center[1] + 1][self.center[0] - 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] + 1][self.center[0] - 1].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] + 1][self.center[0] - 1].occupie(self)
@@ -338,7 +338,7 @@ class Block:
             elif self.ot == 'd':
                 if type == 'R':
                     try:
-                        if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -349,7 +349,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        if board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] + 1][self.center[0] - 1].occupie(self)
@@ -360,7 +360,7 @@ class Block:
                         return False
             elif self.ot == 's':
                 if type == 'R':
-                    if board[self.center[1] + 1][self.center[0] - 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] + 1][self.center[0] - 1].state == ' ' and board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] + 1][self.center[0] - 1].occupie(self)
@@ -368,7 +368,7 @@ class Block:
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
                 else:
-                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                    if board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0] + 1].state == ' ':
                         for tile in self.occupied_tiles:
                             tile.unoccupie()
                         board[self.center[1] + 1][self.center[0]].occupie(self)
@@ -378,7 +378,7 @@ class Block:
             else:
                 if type == 'R':
                     try:
-                        if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        if board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] + 1][self.center[0] - 1].occupie(self)
@@ -389,7 +389,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        if board[self.center[1] - 1][self.center[0]].state == ' ' and board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1]][self.center[0] + 1].state == ' ':
                             for tile in self.occupied_tiles:
                                 tile.unoccupie()
                             board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -401,19 +401,19 @@ class Block:
         elif self.piece_type == 'T':
             if self.ot == 'w':
                 if type == "R":
-                    if board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0]].state == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'd'
                 else:
-                    if board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0]].state == ' ':
                         board[self.center[1]][self.center[0] + 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
             elif self.ot == 'd':
                 if type == "R":
                     try:
-                        if board[self.center[1]][self.center[0] - 1] == ' ':
+                        if board[self.center[1]][self.center[0] - 1].state == ' ':
                             board[self.center[1] + 1][self.center[0]].unoccupie()
                             board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 's'
@@ -421,7 +421,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1]][self.center[0] - 1] == ' ':
+                        if board[self.center[1]][self.center[0] - 1].state == ' ':
                             board[self.center[1] - 1][self.center[0]].unoccupie()
                             board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 'w'
@@ -429,19 +429,19 @@ class Block:
                         return False
             elif self.ot == 's':
                 if type == 'R':
-                    if board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0]].state == ' ':
                         board[self.center[1]][self.center[0] + 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
                 else:
-                    if board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0]].state == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'd'
             else:
                 if type == 'R':
                     try:
-                        if board[self.center[1]][self.center[0] - 1] == ' ':
+                        if board[self.center[1]][self.center[0] - 1].state == ' ':
                             board[self.center[1] - 1][self.center[0]].unoccupie()
                             board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 'w'
@@ -449,7 +449,7 @@ class Block:
                         return False
                 else:
                     try:
-                        if board[self.center[1]][self.center[0] - 1] == ' ':
+                        if board[self.center[1]][self.center[0] - 1].state == ' ':
                             board[self.center[1] + 1][self.center[0]].unoccupie()
                             board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 's'
@@ -458,7 +458,7 @@ class Block:
         elif self.piece_type == 'S':
             if self.ot in {'w', 's'}:
                 try:
-                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                    if board[self.center[1] + 1][self.center[0]].state == ' ' and board[self.center[1] - 1][self.center[0] + 1].state == ' ':
                         board[self.center[1] - 1][self.center[0] - 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].unoccupie()
                         board[self.center[1] + 1][self.center[0]].occupie(self)
@@ -468,7 +468,7 @@ class Block:
                     return False
             else:
                 try:
-                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                    if board[self.center[1] - 1][self.center[0] - 1].state == ' ' and board[self.center[1] - 1][self.center[0]].state == ' ':
                         board[self.center[1] + 1][self.center[0]].unoccupie()
                         board[self.center[1] - 1][self.center[0] + 1].unoccupie()
                         board[self.center[1] - 1][self.center[0] - 1].occupie(self)
@@ -478,7 +478,7 @@ class Block:
         else:
             if self.ot == {'w', 's'}:
                 try:
-                    if board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ':
+                    if board[self.center[1]][self.center[0] + 1].state == ' ' and board[self.center[1] + 1][self.center[0] + 1].state == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
                         board[self.center[1] - 1][self.center[0] + 1].unoccupie()
                         board[self.center[1]][self.center[0] + 1].occupie(self)
@@ -487,7 +487,7 @@ class Block:
                     return False
             else:
                 try:
-                    if board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                    if board[self.center[1]][self.center[0] - 1].state == ' ' and board[self.center[1] - 1][self.center[0] + 1].state == ' ':
                         board[self.center[1]][self.center[0] - 1].occupie()
                         board[self.center[1] - 1][self.center[0] + 1].occupie()
                         board[self.center[1]][self.center[0] + 1].unoccupie(self)
