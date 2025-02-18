@@ -100,7 +100,7 @@ class Block:
         self.lowest_y = 20
         self.occupied_tiles = None
         self.lock = 30
-        self.center = (0, 0)
+        self.center = [0, 0]
 
     def rotate(self, board):
         if self.piece_type == 'I':
@@ -115,8 +115,9 @@ class Block:
             for i in range(3, 7):
                 if board[-1][i].occupie(self):
                     overlap = True
-            self.center
+            self.center = [5, 19]
         elif self.piece_type == 'J':
+            self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
                 if board[-2][i].occupie(self):
@@ -124,6 +125,7 @@ class Block:
             if board[-1][3].occupie(self):
                 overlap = True
         elif self.piece_type == 'L':
+            self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
                 if board[-2][i].occupie(self):
@@ -131,6 +133,7 @@ class Block:
             if board[-1][5].occupie(self):
                 overlap = True
         elif self.piece_type == 'O':
+            self.center = [4, 18]
             self.lowest_y = 19
             for i in range(4, 6):
                 if board[-2][i].occupie(self):
@@ -139,6 +142,7 @@ class Block:
                 if board[-1][i].occupie(self):
                     overlap = True
         elif self.piece_type == 'S':
+            self.center = [4, 19]
             self.lowest_y = 19
             for i in range(3, 5):
                 if board[-2][i].occupie(self):
@@ -147,6 +151,7 @@ class Block:
                 if board[-1][i].occupie(self):
                     overlap = True
         elif self.piece_type == 'T':
+            self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
                 if board[-2][i].occupie(self):
@@ -154,6 +159,7 @@ class Block:
             if board[-1][4].occupie(self):
                 overlap = True
         elif self.piece_type == 'Z':
+            self.center = [4, 19]
             self.lowest_y = 19
             for i in range(3, 5):
                 if board[-1][i].occupie(self):
@@ -173,6 +179,7 @@ class Block:
             if y - 1 < self.lowest_y:
                 self.lowest_y = y -1
             board[y - 1][x].occupie(self)
+        self.center[1] -= 1
 
     def lock_check(self, board):
         if self.lowest_y == 1:
