@@ -49,6 +49,7 @@ class Tetris:
         held = False
         while running:
             self.clock.tick(60)
+            self.draw_board()
             current_tick += 1
             if self.active_piece == None:
                 clears = self.line_clear_check()
@@ -153,6 +154,8 @@ class Tetris:
                     if self.active_piece:
                         self.active_piece.rotate(self.board, 'L')
                         locking = self.active_piece.lock_check(self.board)
+
+        pygame.display.flip()
 
     def hold(self):
         if self.holding:
@@ -505,6 +508,7 @@ class Block:
                 if board[tile.y][tile.x - 1] not in self.occupied_tiles and board[tile.y][tile.x - 1].state != ' ':
                     shift = False
             if shift:
+                self.center[0] -= 1
                 new_tiles = self.occupied_tiles
                 for tile in self.occupied_tiles:
                     tile.unoccupie()
@@ -524,6 +528,7 @@ class Block:
                 if board[tile.y][tile.x + 1] not in self.occupied_tiles and board[tile.y][tile.x + 1].state != ' ':
                     shift = False
             if shift:
+                self.center[0] += 1
                 new_tiles = self.occupied_tiles
                 for tile in self.occupied_tiles:
                     tile.unoccupie()
@@ -663,6 +668,8 @@ class Tile:
 
     def __repr__(self):
         return self.__str__()
-    
-game = Tetris()
+
+pygame.init()
+screen = pygame.display.set_mode((1600, 900))
+game = Tetris(screen)
 game.start_game(64, 1)
