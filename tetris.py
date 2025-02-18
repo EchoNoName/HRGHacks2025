@@ -399,7 +399,7 @@ class Block:
                     except:
                         return False
         elif self.piece_type == 'T':
-            if self.ot = 'w':
+            if self.ot == 'w':
                 if type == "R":
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
@@ -410,7 +410,7 @@ class Block:
                         board[self.center[1]][self.center[0] + 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
-            elif self.ot = 'd':
+            elif self.ot == 'd':
                 if type == "R":
                     try:
                         if board[self.center[1]][self.center[0] - 1] == ' ':
@@ -427,7 +427,7 @@ class Block:
                             self.ot = 'w'
                     except:
                         return False
-            elif self.ot = 's':
+            elif self.ot == 's':
                 if type == 'R':
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] + 1].unoccupie()
@@ -476,7 +476,7 @@ class Block:
                 except:
                     return False
         else:
-            if self.ot = {'w', 's'}:
+            if self.ot == {'w', 's'}:
                 try:
                     if board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
