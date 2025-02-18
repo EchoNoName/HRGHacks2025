@@ -100,9 +100,13 @@ class Block:
         self.lowest_y = 20
         self.occupied_tiles = None
         self.lock = 30
+        self.center = (0, 0)
 
     def rotate(self, board):
-        
+        if self.piece_type == 'I':
+            if self.occupied_tiles[0].y == self.occupied_tiles[1].y:
+
+
 
     def spawn_block(self, board):
         overlap = False
@@ -111,6 +115,7 @@ class Block:
             for i in range(3, 7):
                 if board[-1][i].occupie(self):
                     overlap = True
+            self.center
         elif self.piece_type == 'J':
             self.lowest_y = 19
             for i in range(3, 6):
@@ -198,6 +203,9 @@ class Tile:
 
     def unoccupie(self):
         self.state = ' '
+
+    def isEmpty(self):
+        return self.state == ' '
 
     def draw(self):
         if self.state != ' ':
