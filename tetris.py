@@ -475,7 +475,7 @@ class Block:
                         board[self.center[1] - 1][self.center[0]].occupie(self)
                 except:
                     return False
-        else:
+        elif self.piece_type == 'Z':
             if self.ot == {'w', 's'}:
                 try:
                     if board[self.center[1]][self.center[0] + 1].state == ' ' and board[self.center[1] + 1][self.center[0] + 1].state == ' ':
