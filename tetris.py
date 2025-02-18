@@ -669,6 +669,9 @@ class Tile:
     def __repr__(self):
         return self.__str__()
 
+    def __eq__(self):
+        return self.state
+
 pygame.init()
 screen = pygame.display.set_mode((1600, 900))
 game = Tetris(screen)
