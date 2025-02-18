@@ -101,10 +101,13 @@ class Block:
         self.occupied_tiles = None
         self.lock = 30
         self.center = [0, 0]
+        self.ot = 'w'
 
-    def rotate(self, board):
+    def rotate(self, board, type):
         if self.piece_type == 'I':
-            if self.occupied_tiles[0].y == self.occupied_tiles[1].y:
+            if self.ot in {'w', 's'}:
+                if board[][]
+
 
 
 
