@@ -106,9 +106,161 @@ class Block:
     def rotate(self, board, type):
         if self.piece_type == 'I':
             if self.ot in {'w', 's'}:
-                if board[][]
-
-
+                if board[self.center[1] + 2][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                    for tile in self.occupied_tiles:
+                        tile.unoccupie()
+                    for i in range(-1, 3):
+                        board[self.center[1] + i][self.center[0]].occupie(self)
+                        self.ot = 'd'
+            else:
+                try:
+                    if board[self.center[1]][self.center[0] - 2] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        for i in range(-2, 2):
+                            board[self.center[1]][self.center[0] + i].occupie(self)
+                            self.ot = 'w'
+                except:
+                    return False
+        elif self.piece_type == 'J':
+            if self.ot in 'w':
+                if type == 'R':
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[1]].occupie(self)
+                        self.ot = 'd'
+                else:
+                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        self.ot = 'a'
+            elif self.ot in 'd':
+                if type == 'R':
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] - 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0] - 1].occupie(self)
+                        self.ot = 's'
+                else:
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[1]].occupie(self)
+                        self.ot = 'w'
+            elif self.ot in 's':
+                if type == 'R':
+                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        self.ot = 'a'
+                else:
+                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        self.ot = 'd'
+            else:
+                if type == 'R':
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] + 1][self.center[1]].occupie(self)
+                        self.ot = 'w'
+                else:
+                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        self.ot = 's'
+        elif self.piece_type == 'L':
+            if self.ot == 'w':
+                if type == 'R':
+                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0] + 1].occupie(self)
+                        self.ot = 'd'
+                else:
+                    if board[self.center[1] + 1][self.center[0] - 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        self.ot = 'a'
+            elif self.ot == 'd':
+                if type == 'R':
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        self.ot = 's'
+                else:
+                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        self.ot = 'w'
+            elif self.ot == 's':
+                if type == 'R':
+                    if board[self.center[1] + 1][self.center[0] - 1] == ' ' and board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        self.ot = 'a'
+                else:
+                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0] + 1].occupie(self)
+                        self.ot = 'd'
+            else:
+                if type == 'R':
+                    if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] + 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        self.ot = 'w'
+                else:
+                    if board[self.center[1] - 1][self.center[0]] == ' ' and board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1]][self.center[0] + 1] == ' ':
+                        for tile in self.occupied_tiles:
+                            tile.unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] - 1].occupie(self)
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        self.ot = 's'
+        elif 
 
 
     def spawn_block(self, board):
