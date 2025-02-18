@@ -5,7 +5,7 @@ import os
 class Tetris:
     def __init__(self, screen, width = 10, height = 22, tile_pool = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']):
         self.screen = screen
-        self.tetris_board = pygame.image.load(os.join('assets', 'sprites', 'BoardWithoutBorder.png'))
+        self.tetris_board = pygame.image.load(os.path.join('assets', 'sprites', 'BoardWithoutBorder.png'))
         self.width = width
         self.height = height
         self.board = []
@@ -21,12 +21,16 @@ class Tetris:
     def draw_board(self):
         x = 200
         y = 50
-        self.screen.blit(self.tetris_board, (x, y))
+        num = 0
         for row in reversed(self.board):
+            if num < 2:
+                num += 1
+                continue
             for tile in row:
-                tile.draw(x, y)
+                tile.draw(self.screen, x, y)
                 x += 39
             y += 40
+            x = 200
     
     def start_game(self, grav, fast):
         running = True
@@ -49,6 +53,7 @@ class Tetris:
         held = False
         while running:
             self.clock.tick(60)
+            self.screen.fill((0, 0, 0))
             self.draw_board()
             current_tick += 1
             if self.active_piece == None:
@@ -58,8 +63,9 @@ class Tetris:
                         self.clear_line(self.board[line])
                 defeat = self.spawn_block()
                 held = False
-                if defeat == True:
-                    break
+                locking = False
+                #if defeat == True:
+                #    break
             else:
                 if locking:
                     self.active_piece.lock -= 1
@@ -101,61 +107,69 @@ class Tetris:
                             locking = self.active_piece.lock_check(self.board)
                             shift_tick = 0
             
+            #keyUP hold
+
+
             events = pygame.event.get()
             for event in events:
                 if event == pygame.QUIT:
                     running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_F4 and (event.mod & pygame.KMOD_ALT):
                     running = False
-                if event.key == pygame.K_Down:
-                    if event.type == pygame.KEYDOWN:
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_DOWN:
                         if self.active_piece:
                             if not locking:
                                 self.active_piece.drop(self.board)
                                 locking = self.active_piece.lock_check(self.board)
                                 fast_drop = True
-                    elif event.type == pygame.KEYUP:
-                        fast_drop = False
-                elif event.key == pygame.K_c and event.type == pygame.KEYDOWN:
-                    if not held:
-                        self.hold()
-                        held = True
-                elif event.key == pygame.K_LEFT:
-                    if self.active_piece:
-                        if self.event.type == pygame.KEYDOWN:
+                    elif event.key == pygame.K_c:
+                        if not held:
+                            self.hold()
+                            held = True
+                    elif event.key == pygame.K_LEFT:
+                        if self.active_piece:
+                            print('attempt Shift')
                             self.active_piece.shift_left(self.board)
                             locking = self.active_piece.lock_check(self.board)
                             shifting_left = True
-                        elif event.type == pygame.KEYUP:
-                            shifting_left = False
-                            shift_tick = 0
-                            shift_start_tick = 0
-                elif event.key == pygame.K_RIGHT:
-                    if self.active_piece:
-                        if self.event.type == pygame.KEYDOWN:
+                    elif event.key == pygame.K_RIGHT:
+                        if self.active_piece:
+                            print('attempt Shift')
                             self.active_piece.shift_right(self.board)
                             locking = self.active_piece.lock_check(self.board)
                             shifting_right = True
-                        elif event.type == pygame.KEYUP:
+                    elif event.key == pygame.K_SPACE:
+                        locking = self.active_piece.lock_check(self.board)
+                        while not locking:
+                            self.active_piece.drop(self.board)
+                            locking = self.active_piece.lock_check(self.board)
+                        self.active_piece = None
+                    elif event.key == pygame.K_UP:
+                        if self.active_piece:
+                            self.active_piece.rotate(self.board, 'R')
+                            print('Attempted Rotate')
+                            locking = self.active_piece.lock_check(self.board)
+                    elif event.key == pygame.K_z:
+                        if self.active_piece:
+                            self.active_piece.rotate(self.board, 'L')
+                            print('Attempted Rotate')
+                            locking = self.active_piece.lock_check(self.board)
+                elif event.type == pygame.KEYUP:
+                    if event.key == pygame.K_DOWN:    
+                        fast_drop = False
+                    elif event.key == pygame.K_LEFT:
+                        if self.active_piece:
+                            shifting_left = False
+                            shift_tick = 0
+                            shift_start_tick = 0
+                    elif event.key == pygame.K_RIGHT:
+                        if self.active_piece:
                             shifting_right = False
                             shift_tick = 0
                             shift_start_tick = 0
-                elif event.key == pygame.K_SPACE and event.type == pygame.KEYDOWN:
-                    locking = self.active_piece.lock_check(self.board)
-                    while not locking:
-                        self.active_piece.drop(self.board)
-                        locking = self.active_piece.lock_check(self.board)
-                    self.active_piece = None
-                elif event.key == pygame.K_UP and event.type == pygame.KEYDOWN:
-                    if self.active_piece:
-                        self.active_piece.rotate(self.board, 'R')
-                        locking = self.active_piece.lock_check(self.board)
-                elif event.key == pygame.K_z and event.type == pygame.KEYDOWN:
-                    if self.active_piece:
-                        self.active_piece.rotate(self.board, 'L')
-                        locking = self.active_piece.lock_check(self.board)
 
-        pygame.display.flip()
+            pygame.display.flip()
 
     def hold(self):
         if self.holding:
@@ -178,7 +192,7 @@ class Tetris:
         filled_lines = []
         for i in range(self.height):
             clear = True
-            for tile in self.baord[i]:
+            for tile in self.board[i]:
                 if tile.state == ' ':
                     clear = False
                     break
@@ -509,11 +523,13 @@ class Block:
                     shift = False
             if shift:
                 self.center[0] -= 1
-                new_tiles = self.occupied_tiles
+                new_tiles = []
+                for tile in self.occupied_tiles:
+                    new_tiles.append(tile)
                 for tile in self.occupied_tiles:
                     tile.unoccupie()
                 for tile in new_tiles:
-                    self.board[tile.y][tile.x - 1].occupie(self)
+                    board[tile.y][tile.x - 1].occupie(self)
     
     def shift_right(self, board):
         right = -100
@@ -529,11 +545,14 @@ class Block:
                     shift = False
             if shift:
                 self.center[0] += 1
-                new_tiles = self.occupied_tiles
+                print(self.occupied_tiles)
+                new_tiles = []
+                for tile in self.occupied_tiles:
+                    new_tiles.append(tile)
                 for tile in self.occupied_tiles:
                     tile.unoccupie()
                 for tile in new_tiles:
-                    self.board[tile.y][tile.x + 1].occupie(self)
+                    board[tile.y][tile.x + 1].occupie(self)
 
     def spawn_block(self, board):
         overlap = False
@@ -597,7 +616,9 @@ class Block:
         return overlap
     
     def drop(self, board):
-        current_tiles = self.occupied_tiles
+        current_tiles = []
+        for tile in self.occupied_tiles:
+            current_tiles.append(tile)
         for tile in self.occupied_tiles:
             tile.unoccupie()
         self.occupied_tiles = []
@@ -609,7 +630,7 @@ class Block:
         self.center[1] -= 1
 
     def lock_check(self, board):
-        if self.lowest_y == 1:
+        if self.lowest_y == 0:
             return True
         else:
             for tile in self.occupied_tiles:
@@ -624,14 +645,16 @@ class Tile:
         self.block_in_tile = None
         self.x = x
         self.y = y
-        self.red = pygame.image.load(os.join('assets', 'sprites', 'SingleTileRed'))
-        self.blue = pygame.image.load(os.join('assets', 'sprites', 'SingleTileBlue'))
-        self.cyan = pygame.image.load(os.join('assets', 'sprites', 'SingleTileCyan'))
-        self.green = pygame.image.load(os.join('assets', 'sprites', 'SingleTileGreen'))
-        self.orange = pygame.image.load(os.join('assets', 'sprites', 'SingleTileOrange'))
-        self.purple = pygame.image.load(os.join('assets', 'sprites', 'SingleTilePurple'))
-        self.yellow = pygame.image.load(os.join('assets', 'sprites', 'SingleTileYellow'))
+        self.red = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileRed.png'))
+        self.blue = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileBlue.png'))
+        self.cyan = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileCyan.png'))
+        self.green = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileGreen.png'))
+        self.orange = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileOrange.png'))
+        self.purple = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTilePurple.png'))
+        self.yellow = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTileYellow.png'))
+        self.empty = pygame.image.load(os.path.join('assets', 'sprites', 'SingleTile.png'))
         self.colours = {
+            ' ': self.empty,
             'O': self.yellow, 
             'I': self.cyan,
             'T': self.purple, 
@@ -646,31 +669,27 @@ class Tile:
         block.occupied_tiles.append(self)
         if self.state != ' ':
             self.state = block.piece_type
-            return True
+            return False
         else:
             self.state = block.piece_type
-            return False
+            return True
 
     def unoccupie(self):
         self.state = ' '
+        self.block_in_tile = None
 
     def isEmpty(self):
         return self.state == ' '
 
     def draw(self, screen, x ,y):
-        if self.state != ' ':
-            return True
-        else:
-            screen.blit(self.colours[self.state], (x, y))
+        screen.blit(self.colours[self.state], (x, y))
 
     def __str__(self):
         return self.state
-
-    def __repr__(self):
+    
+    def __repr__(self) -> str:
         return self.__str__()
 
-    def __eq__(self):
-        return self.state
 
 pygame.init()
 screen = pygame.display.set_mode((1600, 900))
