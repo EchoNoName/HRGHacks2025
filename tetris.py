@@ -400,19 +400,19 @@ class Block:
                 if type == "R":
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
-                        board[self.center[1] - 1][self.center[0]].occupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'd'
                 else:
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] + 1].unoccupie()
-                        board[self.center[1] - 1][self.center[0]].occupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
             elif self.ot = 'd':
                 if type == "R":
                     try:
                         if board[self.center[1]][self.center[0] - 1] == ' ':
                             board[self.center[1] + 1][self.center[0]].unoccupie()
-                            board[self.center[1]][self.center[0] - 1].occupie()
+                            board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 's'
                     except:
                         return False
@@ -420,7 +420,7 @@ class Block:
                     try:
                         if board[self.center[1]][self.center[0] - 1] == ' ':
                             board[self.center[1] - 1][self.center[0]].unoccupie()
-                            board[self.center[1]][self.center[0] - 1].occupie()
+                            board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 'w'
                     except:
                         return False
@@ -428,19 +428,19 @@ class Block:
                 if type == 'R':
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] + 1].unoccupie()
-                        board[self.center[1] - 1][self.center[0]].occupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'a'
                 else:
                     if board[self.center[1] - 1][self.center[0]] == ' ':
                         board[self.center[1]][self.center[0] - 1].unoccupie()
-                        board[self.center[1] - 1][self.center[0]].occupie()
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
                         self.ot = 'd'
             else:
                 if type == 'R':
                     try:
                         if board[self.center[1]][self.center[0] - 1] == ' ':
                             board[self.center[1] - 1][self.center[0]].unoccupie()
-                            board[self.center[1]][self.center[0] - 1].occupie()
+                            board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 'w'
                     except:
                         return False
@@ -448,24 +448,49 @@ class Block:
                     try:
                         if board[self.center[1]][self.center[0] - 1] == ' ':
                             board[self.center[1] + 1][self.center[0]].unoccupie()
-                            board[self.center[1]][self.center[0] - 1].occupie()
+                            board[self.center[1]][self.center[0] - 1].occupie(self)
                             self.ot = 's'
                     except:
                         return False
         elif self.piece_type == 'S':
             if self.ot in {'w', 's'}:
-                if type == 'R':
+                try:
                     if board[self.center[1] + 1][self.center[0]] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
                         board[self.center[1] - 1][self.center[0] - 1].unoccupie()
                         board[self.center[1] - 1][self.center[0]].unoccupie()
-                        board[self.center[1] + 1][self.center[0]].occupie()
-                        board[self.center[1] - 1][self.center[0] + 1].occupie()
+                        board[self.center[1] + 1][self.center[0]].occupie(self)
+                        board[self.center[1] - 1][self.center[0] + 1].occupie(self)
                         self.ot = 'd'
-                else:
-                    if board[self.center[1]]
+                except:
+                    return False
             else:
-
+                try:
+                    if board[self.center[1] - 1][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0]] == ' ':
+                        board[self.center[1] + 1][self.center[0]].unoccupie()
+                        board[self.center[1] - 1][self.center[0] + 1].unoccupie()
+                        board[self.center[1] - 1][self.center[0] - 1].occupie(self)
+                        board[self.center[1] - 1][self.center[0]].occupie(self)
+                except:
+                    return False
         else:
+            if self.ot = {'w', 's'}:
+                try:
+                    if board[self.center[1]][self.center[0] + 1] == ' ' and board[self.center[1] + 1][self.center[0] + 1] == ' ':
+                        board[self.center[1]][self.center[0] - 1].unoccupie()
+                        board[self.center[1] - 1][self.center[0] + 1].unoccupie()
+                        board[self.center[1]][self.center[0] + 1].occupie(self)
+                        board[self.center[1] + 1][self.center[0] + 1].occupie(self)
+                except:
+                    return False
+            else:
+                try:
+                    if board[self.center[1]][self.center[0] - 1] == ' ' and board[self.center[1] - 1][self.center[0] + 1] == ' ':
+                        board[self.center[1]][self.center[0] - 1].occupie()
+                        board[self.center[1] - 1][self.center[0] + 1].occupie()
+                        board[self.center[1]][self.center[0] + 1].unoccupie(self)
+                        board[self.center[1] + 1][self.center[0] + 1].unoccupie(self)
+                except:
+                    return False
 
     def shift_left(self, board):
         left = 100
