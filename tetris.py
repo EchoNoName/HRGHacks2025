@@ -2,7 +2,8 @@ import pygame
 import random
 
 class Tetris:
-    def __init__(self, width = 10, height = 20, tile_pool = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']):
+    def __init__(self, screen, width = 10, height = 20, tile_pool = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']):
+        self.screen = screen
         self.width = width
         self.height = height
         self.board = []
@@ -14,6 +15,8 @@ class Tetris:
         self.current_tile_pool = self.base_tile_pool
         self.next_tile_pool = self.base_tile_pool
         self.active_piece = None
+    
+    def draw_board(self):
     
     def start_game(self, grav, fast):
         running = True
@@ -97,6 +100,9 @@ class Block:
         self.lowest_y = 20
         self.occupied_tiles = None
         self.lock = 30
+
+    def rotate(self, board):
+        
 
     def spawn_block(self, board):
         overlap = False
