@@ -17,6 +17,10 @@ class Tetris:
         self.active_piece = None
     
     def draw_board(self):
+        x = 200
+        y = 50
+        for row in reversed(self.board):
+            for 
     
     def start_game(self, grav, fast):
         running = True
