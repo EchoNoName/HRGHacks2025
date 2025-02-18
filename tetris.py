@@ -106,7 +106,7 @@ class Tetris:
                     running = False
                 if event.type == pygame.KEYDOWN and event.key == pygame.K_F4 and (event.mod & pygame.KMOD_ALT):
                     running = False
-                if event.key == pygame.K_s:
+                if event.key == pygame.K_Down:
                     if event.type == pygame.KEYDOWN:
                         if self.active_piece:
                             if not locking:
@@ -119,7 +119,7 @@ class Tetris:
                     if not held:
                         self.hold()
                         held = True
-                elif event.key == pygame.K_a:
+                elif event.key == pygame.K_LEFT:
                     if self.active_piece:
                         if self.event.type == pygame.KEYDOWN:
                             self.active_piece.shift_left(self.board)
@@ -129,7 +129,7 @@ class Tetris:
                             shifting_left = False
                             shift_tick = 0
                             shift_start_tick = 0
-                elif event.key == pygame.K_d:
+                elif event.key == pygame.K_RIGHT:
                     if self.active_piece:
                         if self.event.type == pygame.KEYDOWN:
                             self.active_piece.shift_right(self.board)
@@ -139,6 +139,20 @@ class Tetris:
                             shifting_right = False
                             shift_tick = 0
                             shift_start_tick = 0
+                elif event.key == pygame.K_SPACE and event.type == pygame.KEYDOWN:
+                    locking = self.active_piece.lock_check(self.board)
+                    while not locking:
+                        self.active_piece.drop(self.board)
+                        locking = self.active_piece.lock_check(self.board)
+                    self.active_piece = None
+                elif event.key == pygame.K_UP and event.type == pygame.KEYDOWN:
+                    if self.active_piece:
+                        self.active_piece.rotate(self.board, 'R')
+                        locking = self.active_piece.lock_check(self.board)
+                elif event.key == pygame.K_z and event.type == pygame.KEYDOWN:
+                    if self.active_piece:
+                        self.active_piece.rotate(self.board, 'L')
+                        locking = self.active_piece.lock_check(self.board)
 
     def hold(self):
         if self.holding:
@@ -195,6 +209,8 @@ class Block:
         self.lowest_y = 20
         self.occupied_tiles = None
         self.lock = 30
+        self.left_side = 0
+        self.right_side = 0
         self.center = [0, 0]
         self.ot = 'w'
 
@@ -357,6 +373,43 @@ class Block:
                         self.ot = 's'
         elif 
 
+    def shift_left(self, board):
+        left = 100
+        shift = True
+        for tile in self.occupied_tiles:
+            if tile.x < left:
+                left = tile.x
+        if left == 0:
+            return False
+        else:
+            for tile in self.occupied_tiles:
+                if board[tile.y][tile.x - 1] not in self.occupied_tiles and board[tile.y][tile.x - 1].state != ' ':
+                    shift = False
+            if shift:
+                new_tiles = self.occupied_tiles
+                for tile in self.occupied_tiles:
+                    tile.unoccupie()
+                for tile in new_tiles:
+                    self.board[tile.y][tile.x - 1].occupie(self)
+    
+    def shift_right(self, board):
+        right = -100
+        shift = True
+        for tile in self.occupied_tiles:
+            if tile.x > right:
+                right = tile.x
+        if right == 9:
+            return False
+        else:
+            for tile in self.occupied_tiles:
+                if board[tile.y][tile.x + 1] not in self.occupied_tiles and board[tile.y][tile.x + 1].state != ' ':
+                    shift = False
+            if shift:
+                new_tiles = self.occupied_tiles
+                for tile in self.occupied_tiles:
+                    tile.unoccupie()
+                for tile in new_tiles:
+                    self.board[tile.y][tile.x + 1].occupie(self)
 
     def spawn_block(self, board):
         overlap = False
