@@ -2,7 +2,7 @@ import pygame
 import random
 
 class Tetris:
-    def __init__(self, screen, width = 10, height = 20, tile_pool = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']):
+    def __init__(self, screen, width = 10, height = 22, tile_pool = ['I', 'J', 'L', 'O', 'S', 'T', 'Z']):
         self.screen = screen
         self.width = width
         self.height = height
@@ -116,59 +116,59 @@ class Block:
         self.occupied_tiles = []
         if self.piece_type == 'I':
             for i in range(3, 7):
-                if board[-1][i].occupie(self):
+                if board[19][i].occupie(self):
                     overlap = True
             self.center = [5, 19]
         elif self.piece_type == 'J':
             self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
-            if board[-1][3].occupie(self):
+            if board[19][3].occupie(self):
                 overlap = True
         elif self.piece_type == 'L':
             self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
-            if board[-1][5].occupie(self):
+            if board[19][5].occupie(self):
                 overlap = True
         elif self.piece_type == 'O':
             self.center = [4, 18]
             self.lowest_y = 19
             for i in range(4, 6):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
             for i in range(4, 6):
-                if board[-1][i].occupie(self):
+                if board[19][i].occupie(self):
                     overlap = True
         elif self.piece_type == 'S':
             self.center = [4, 19]
             self.lowest_y = 19
             for i in range(3, 5):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
             for i in range(4, 6):
-                if board[-1][i].occupie(self):
+                if board[19][i].occupie(self):
                     overlap = True
         elif self.piece_type == 'T':
             self.center = [4, 18]
             self.lowest_y = 19
             for i in range(3, 6):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
-            if board[-1][4].occupie(self):
+            if board[19][4].occupie(self):
                 overlap = True
         elif self.piece_type == 'Z':
             self.center = [4, 19]
             self.lowest_y = 19
             for i in range(3, 5):
-                if board[-1][i].occupie(self):
+                if board[19][i].occupie(self):
                     overlap = True
             for i in range(4, 6):
-                if board[-2][i].occupie(self):
+                if board[18][i].occupie(self):
                     overlap = True
         return overlap
     
